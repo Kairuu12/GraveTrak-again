@@ -1,0 +1,92 @@
+/* Keep map tools and selected-record details in separate, predictable lanes. */
+#screen-public .grave-panel {
+  box-sizing: border-box;
+  background: var(--bg-card);
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 12px 36px #142d4424;
+}
+#screen-public .grave-panel .gp-header { gap: 14px; padding: 20px; flex-shrink: 0; }
+#screen-public .grave-panel .gp-header > div { min-width: 0; }
+#screen-public .grave-panel .gp-id { overflow-wrap: anywhere; line-height: 1.5; margin-bottom: 6px; }
+#screen-public .grave-panel .gp-name { line-height: 1.4; overflow-wrap: anywhere; }
+#screen-public .grave-panel .gp-close { flex: 0 0 32px; width: 32px; height: 32px; background: var(--bg-surface); border: 1px solid var(--border); }
+#screen-public .grave-panel .gp-body { min-height: 0; overflow-y: auto; padding: 8px 20px 16px; }
+#screen-public .grave-panel .gp-row { display: grid; grid-template-columns: 76px minmax(0, 1fr); gap: 12px; margin: 0; padding: 11px 0; align-items: start; }
+#screen-public .grave-panel .gp-row + .gp-row { border-top: 1px solid var(--border); }
+#screen-public .grave-panel .gp-val { overflow-wrap: anywhere; line-height: 1.5; }
+#screen-public .grave-panel .gp-footer { padding: 16px 20px; flex-shrink: 0; background: var(--bg-surface); }
+#screen-public .grave-panel .gp-actions { display: grid; grid-template-columns: 1fr; width: 100%; gap: 8px; }
+#screen-public .grave-panel .gp-actions .btn { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; min-height: 42px; white-space: normal; border-radius: 10px; }
+#screen-public .grave-panel .gp-actions .gp-close-action { display: none; }
+#screen-public .map-action-pill { background: var(--bg-card); border: 1px solid var(--border); box-shadow: 0 4px 16px #142d4417; }
+#screen-public .map-action-pill .pill-btn { color: var(--text-secondary); border-color: var(--border); }
+#screen-public .grave-panel :is(button, a):focus-visible,
+#screen-public .cemetery-switcher-fab button:focus-visible { outline: 3px solid var(--accent); outline-offset: -3px; }
+
+/* An install suggestion should not cover details, navigation or mobile tabs. */
+body:has(#screen-public.active.has-selected-grave) .pwa-install-banner,
+body:has(#screen-public.active.is-navigating) .pwa-install-banner { display: none !important; }
+
+@media (min-width: 769px) {
+  #screen-public { --public-tools-top: 16px; --public-panel-width: 340px; }
+  #screen-public.is-guest { --public-tools-top: 80px; }
+  #screen-public .cemetery-switcher-fab {
+    top: var(--public-tools-top); right: 80px; width: var(--public-panel-width);
+    display: grid; grid-template-columns: 1fr 1fr; gap: 4px; padding: 5px;
+    box-sizing: border-box; border: 1px solid var(--border); border-radius: 14px;
+    background: var(--bg-card); box-shadow: 0 4px 16px #142d4417;
+  }
+  #screen-public .cemetery-switcher-fab button { min-width: 0; min-height: 38px; border-radius: 9px; border: 0; box-shadow: none; font-size: 12px; }
+  #screen-public .cemetery-switcher-fab button:hover { background: var(--bg-surface); transform: none; }
+  #screen-public .grave-panel.show {
+    top: calc(var(--public-tools-top) + 64px); right: 80px;
+    width: var(--public-panel-width) !important; max-width: none !important;
+    max-height: calc(100dvh - var(--public-tools-top) - 88px);
+    display: flex; flex-direction: column; z-index: 1000 !important;
+  }
+  #screen-public .grave-panel .gp-body { max-height: none !important; }
+  #screen-public .map-action-pill { top: calc(var(--public-tools-top) + 64px); right: 20px; }
+  #screen-public .search-fab.is-user-search { max-width: min(460px, calc(100vw - 480px)) !important; box-sizing: border-box; }
+  #screen-public .search-fab.is-user-search input { min-width: 0; }
+  #screen-public.user-logged-in.sidebar-open .search-fab.is-user-search { max-width: min(460px, calc(100vw - 744px)) !important; }
+  #screen-public.is-navigating .cemetery-switcher-fab { display: none; }
+  #screen-public.is-navigating .grave-panel.show { top: var(--public-tools-top); }
+}
+
+@media (min-width: 769px) and (max-width: 1100px) {
+  #screen-public { --public-tools-top: 80px; --public-panel-width: 310px; }
+  #screen-public .search-fab.is-user-search { max-width: min(460px, calc(100vw - 112px)) !important; }
+  #screen-public.user-logged-in.sidebar-open .search-fab.is-user-search { max-width: min(460px, calc(100vw - 336px)) !important; }
+}
+
+@media (max-width: 768px) {
+  body:has(#screen-public.active) .pwa-install-banner { bottom: calc(100px + env(safe-area-inset-bottom, 0px)) !important; }
+  #screen-public .grave-panel .gp-close-action { display: none !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #screen-public .grave-panel { animation: none; transition: none; }
+}
+
+#screen-public.is-navigating .grave-panel.show { display: none !important; }
+#screen-public .live-nav-overlay { flex-wrap: wrap; max-width: min(440px, calc(100vw - 32px)); box-sizing: border-box; }
+#screen-public .route-camera-actions { flex: 0 0 100%; display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap: 8px; border-top: 1px solid var(--border); padding-top: 12px; }
+#screen-public .route-camera-hint { grid-column: 1 / -1; color: var(--text-secondary); font-size: 11px; line-height: 1.5; }
+#screen-public .route-camera-actions .btn { min-height: 44px; white-space: normal; justify-content: center; font-size: 12px; }
+#screen-public .nav-header-overlay .gp-close { color: var(--text-primary) !important; background: var(--bg-surface) !important; }
+
+#screen-public #public-map { background: var(--bg-surface, #edf4f8) !important; }
+#screen-public .cemetery-transition { position: absolute; inset: 0; z-index: 11000; display: grid; place-items: center; padding: 24px; background: var(--bg-surface, #edf4f8); }
+#screen-public .cemetery-transition-card { display: grid; justify-items: center; gap: 16px; width: min(100%, 360px); padding: 32px 24px; box-sizing: border-box; text-align: center; border: 1px solid var(--border); border-radius: 22px; background: var(--bg-card); box-shadow: 0 12px 36px #142d4410; }
+#screen-public .cemetery-transition-card strong { font-size: 18px; color: var(--text-primary); }
+#screen-public .cemetery-transition-card p { margin: 0; font-size: 13px; line-height: 1.6; color: var(--text-secondary); }
+#screen-public .cemetery-transition-spinner { width: 42px; height: 42px; border: 3px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: cemetery-loading-spin .8s linear infinite; }
+body:has(#screen-public .cemetery-transition) .pwa-install-banner { display: none !important; }
+@keyframes cemetery-loading-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { #screen-public .cemetery-transition-spinner { animation: none; } }
+
+#screen-public .gp-floor-select { cursor: pointer; border-radius: 6px; padding: 4px; margin: -4px; display: grid; gap: 8px; }
+#screen-public .gp-floor-select:hover { background: color-mix(in srgb, var(--accent) 7%, transparent); }
+#screen-public .gp-floor-select:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+#screen-public .gp-floor-link { color: var(--accent); font-size: 12px; font-weight: 600; }
+#screen-public .gp-back-floors { margin: 4px 0 12px; min-height: 40px; }

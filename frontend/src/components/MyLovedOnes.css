@@ -1,0 +1,95 @@
+#screen-public .loved-ones-page { display: grid; gap: 18px; color: var(--text-primary); }
+#screen-public .loved-ones-hero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  min-width: 0;
+  padding: 22px 24px;
+  overflow: hidden;
+  border: 1px solid rgba(22,135,201,.2);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(115deg, rgba(22,135,201,.1), rgba(22,135,201,.035) 56%, var(--bg-card));
+  box-shadow: var(--shadow-sm);
+}
+#screen-public .loved-ones-hero::after { position: absolute; right: -46px; bottom: -95px; width: 210px; height: 210px; border: 1px solid rgba(22,135,201,.13); border-radius: 50%; content: ""; box-shadow: 0 0 0 22px rgba(22,135,201,.025), 0 0 0 44px rgba(22,135,201,.02); pointer-events: none; }
+#screen-public .loved-ones-hero-mark, #screen-public .loved-ones-card-mark { display: grid; place-items: center; flex: 0 0 auto; color: var(--accent); background: var(--bg-card); border: 1px solid rgba(22,135,201,.2); border-radius: 15px; }
+#screen-public .loved-ones-hero-mark { width: 58px; height: 58px; box-shadow: 0 5px 18px rgba(22,135,201,.12); }
+#screen-public .loved-ones-mark { width: 30px; height: 30px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2; }
+#screen-public .loved-ones-hero-copy { min-width: 0; flex: 1; }
+#screen-public .loved-ones-eyebrow { display: block; color: var(--accent); font-size: 10px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+#screen-public .loved-ones-hero h2 { margin: 5px 0 4px; font-size: clamp(18px, 2.2vw, 23px); line-height: 1.25; letter-spacing: -.025em; }
+#screen-public .loved-ones-hero p { max-width: 56ch; margin: 0; color: var(--text-secondary); font-size: 12px; line-height: 1.55; }
+#screen-public .loved-ones-find { position: relative; z-index: 1; min-height: 42px; flex: 0 0 auto; white-space: nowrap; }
+#screen-public .loved-ones-find span { margin-right: 6px; font-size: 18px; line-height: 0; }
+#screen-public .loved-ones-summary { display: flex; align-items: center; gap: 22px; padding: 14px 18px; border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--bg-card); box-shadow: var(--shadow-sm); }
+#screen-public .loved-ones-summary > div:not(.loved-ones-summary-divider) { display: grid; gap: 2px; }
+#screen-public .loved-ones-summary strong { font-size: 18px; line-height: 1.2; }
+#screen-public .loved-ones-summary span { color: var(--text-secondary); font-size: 10px; }
+#screen-public .loved-ones-total strong { color: var(--accent); font-size: 23px; }
+#screen-public .loved-ones-summary-divider { width: 1px; height: 34px; background: var(--border); }
+#screen-public .loved-ones-tools { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+#screen-public .loved-ones-search { display: flex; align-items: center; gap: 9px; width: min(100%, 420px); min-height: 42px; padding: 0 12px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg-card); color: var(--text-secondary); }
+#screen-public .loved-ones-search > span { color: var(--accent); font-size: 19px; }
+#screen-public .loved-ones-search input { width: 100%; min-width: 0; border: 0; outline: 0; background: transparent; color: var(--text-primary); font: inherit; font-size: 12px; }
+#screen-public .loved-ones-search input::placeholder { color: var(--text-muted); }
+#screen-public .loved-ones-search button { border: 0; background: transparent; color: var(--text-secondary); font-size: 20px; cursor: pointer; }
+#screen-public .loved-ones-filters { display: flex; gap: 5px; padding: 4px; border: 1px solid var(--border); border-radius: 999px; background: var(--bg-card); }
+#screen-public .loved-ones-filters button { min-height: 30px; padding: 5px 11px; border: 0; border-radius: 999px; background: transparent; color: var(--text-secondary); font: inherit; font-size: 10px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+#screen-public .loved-ones-filters button.active { background: var(--accent); color: #fff; box-shadow: 0 2px 7px rgba(22,135,201,.2); }
+#screen-public .loved-ones-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 290px), 1fr)); gap: 14px; }
+#screen-public .loved-ones-card { min-width: 0; padding: 17px 18px 0; overflow: hidden; border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--bg-card); box-shadow: var(--shadow-sm); transition: border-color .18s ease, box-shadow .18s ease, transform .18s ease; }
+#screen-public .loved-ones-card:hover { transform: translateY(-2px); border-color: rgba(22,135,201,.42); box-shadow: 0 9px 24px rgba(20,45,68,.08); }
+#screen-public .loved-ones-card-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+#screen-public .loved-ones-card-mark { width: 38px; height: 38px; border-radius: 11px; background: rgba(22,135,201,.07); }
+#screen-public .loved-ones-card-mark .loved-ones-mark { width: 22px; height: 22px; }
+#screen-public .loved-ones-cemetery { padding: 6px 9px; border: 1px solid rgba(22,135,201,.19); border-radius: 999px; background: rgba(22,135,201,.07); color: var(--accent); font-size: 9px; font-weight: 700; white-space: nowrap; }
+#screen-public .loved-ones-card h3 { margin: 14px 0 5px; overflow-wrap: anywhere; font-size: 16px; line-height: 1.35; }
+#screen-public .loved-ones-grave-id { display: flex; flex-wrap: wrap; align-items: center; gap: 7px; color: var(--text-muted); font-size: 9px; font-weight: 700; letter-spacing: .08em; }
+#screen-public .loved-ones-grave-id strong { color: var(--text-secondary); font-family: var(--mono, monospace); font-size: 10px; letter-spacing: .02em; }
+#screen-public .loved-ones-details { display: grid; gap: 9px; min-height: 55px; margin-top: 15px; padding-top: 13px; border-top: 1px solid var(--border); }
+#screen-public .loved-ones-details > div { display: flex; align-items: flex-start; gap: 8px; color: var(--text-secondary); font-size: 11px; line-height: 1.45; overflow-wrap: anywhere; }
+#screen-public .loved-ones-detail-icon { width: 15px; flex: 0 0 15px; color: var(--accent); text-align: center; }
+#screen-public .loved-ones-card-footer { display: grid; gap: 10px; margin: 14px -18px 0; padding: 12px 18px; border-top: 1px solid var(--border); background: color-mix(in srgb, var(--bg-surface) 62%, transparent); }
+#screen-public .loved-ones-card-footer > span { color: var(--text-muted); font-size: 9px; }
+#screen-public .loved-ones-card-footer > div { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+#screen-public .loved-ones-card-footer .btn { min-height: 36px; padding: 7px 12px; font-size: 11px; }
+#screen-public .loved-ones-remove { padding: 8px 5px; border: 0; background: transparent; color: var(--text-secondary); font: inherit; font-size: 10px; cursor: pointer; }
+#screen-public .loved-ones-remove:hover { color: var(--red); }
+#screen-public .loved-ones-remove:disabled { cursor: wait; opacity: .6; }
+#screen-public .loved-ones-state, #screen-public .loved-ones-no-results { display: grid; justify-items: center; padding: 36px 22px; border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--bg-card); box-shadow: var(--shadow-sm); text-align: center; }
+#screen-public .loved-ones-state-mark { display: grid; place-items: center; width: 54px; height: 54px; margin-bottom: 15px; border: 1px solid rgba(22,135,201,.2); border-radius: 17px; background: rgba(22,135,201,.08); color: var(--accent); }
+#screen-public .loved-ones-state-mark .loved-ones-mark { width: 28px; height: 28px; }
+#screen-public .loved-ones-state h2 { margin: 7px 0 5px; font-size: 19px; }
+#screen-public .loved-ones-state p, #screen-public .loved-ones-no-results span { max-width: 46ch; margin: 0 0 17px; color: var(--text-secondary); font-size: 12px; line-height: 1.6; }
+#screen-public .loved-ones-error .loved-ones-state-mark { font-size: 22px; font-weight: 800; color: var(--red); }
+#screen-public .loved-ones-no-results { gap: 8px; padding: 28px; }
+#screen-public .loved-ones-no-results strong { font-size: 14px; }
+#screen-public .loved-ones-no-results .btn { min-height: 36px; }
+#screen-public .loved-ones-privacy { display: flex; align-items: center; gap: 7px; margin: 0; color: var(--text-muted); font-size: 10px; }
+#screen-public .loved-ones-privacy span { color: var(--accent); font-size: 8px; }
+#screen-public .loved-ones-loading { display: flex; align-items: center; justify-content: center; gap: 10px; min-height: 180px; color: var(--text-secondary); font-size: 12px; }
+#screen-public .loved-ones-spinner { width: 16px; height: 16px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: loved-ones-spin .7s linear infinite; }
+#screen-public .loved-ones-page :is(button, input):focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+@keyframes loved-ones-spin { to { transform: rotate(360deg); } }
+
+@media (max-width: 720px) {
+  #screen-public .loved-ones-page { gap: 14px; }
+  #screen-public .loved-ones-hero { flex-wrap: wrap; gap: 12px; padding: 17px; }
+  #screen-public .loved-ones-hero-mark { width: 46px; height: 46px; border-radius: 12px; }
+  #screen-public .loved-ones-hero-mark .loved-ones-mark { width: 25px; height: 25px; }
+  #screen-public .loved-ones-hero-copy { flex-basis: calc(100% - 60px); }
+  #screen-public .loved-ones-find { margin-left: 58px; }
+  #screen-public .loved-ones-summary { gap: 14px; padding: 12px; }
+  #screen-public .loved-ones-summary strong { font-size: 16px; }
+  #screen-public .loved-ones-summary span { font-size: 9px; }
+  #screen-public .loved-ones-total strong { font-size: 21px; }
+  #screen-public .loved-ones-tools { align-items: stretch; flex-direction: column; }
+  #screen-public .loved-ones-search { width: 100%; }
+  #screen-public .loved-ones-filters { align-self: flex-start; max-width: 100%; overflow-x: auto; }
+  #screen-public .loved-ones-filters button { padding-inline: 9px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #screen-public .loved-ones-card, #screen-public .loved-ones-spinner { transition: none; animation: none; }
+}

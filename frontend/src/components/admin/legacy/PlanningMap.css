@@ -1,0 +1,37 @@
+#planning-map .planning-section-label {
+  background: #fff;
+  color: #0c4a6e;
+  border: 1px solid #075985;
+  border-radius: 5px;
+  padding: 3px 7px;
+  font: 700 11px/1.3 var(--font, sans-serif);
+  box-shadow: 0 1px 5px rgba(15, 23, 42, 0.25);
+  max-width: 130px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.planning-map-legend {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 7px 12px;
+  margin-bottom: 14px;
+  color: var(--text-secondary);
+  font-size: 11px;
+}
+
+.planning-map-legend span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.planning-map-legend i {
+  width: 10px;
+  height: 10px;
+  border: 1px solid rgba(15, 23, 42, 0.2);
+  border-radius: 3px;
+  flex-shrink: 0;
+}

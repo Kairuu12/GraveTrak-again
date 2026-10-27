@@ -1,0 +1,85 @@
+.admin-app-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 2px;
+  padding: 12px 2px 4px;
+  border-top: 1px solid var(--border);
+  color: var(--text-secondary);
+  font-size: 12px;
+}
+
+.admin-app-pagination > div { display: flex; gap: 8px; }
+.admin-app-pagination .btn { min-width: 84px; }
+.admin-app-pagination .btn:disabled { cursor: not-allowed; opacity: .5; }
+
+#panel-approvals .applications-content { padding: clamp(16px, 2vw, 28px); background: linear-gradient(145deg, rgba(22,135,201,.035), transparent 60%), var(--bg-surface); container-type: inline-size; }
+#panel-approvals .page-hdr { gap: 20px; align-items: center; flex-wrap: wrap; margin-bottom: 22px; }
+#panel-approvals .applications-eyebrow { color: var(--accent); font-size: 10px; font-weight: 800; letter-spacing: 1.4px; margin-bottom: 7px; }
+#panel-approvals .page-title { font-size: clamp(23px, 2vw, 29px); letter-spacing: -.6px; }
+#panel-approvals .page-sub { line-height: 1.6; margin-top: 5px; }
+#panel-approvals .applications-header-note { max-width: 280px; font-size: 12px; line-height: 1.6; color: var(--text-muted); border-left: 3px solid var(--border); padding-left: 16px; }
+#panel-approvals .applications-toolbar { display: flex; align-items: end; flex-wrap: wrap; gap: 14px; padding: 20px; border: 1px solid var(--border); border-radius: 14px; background: var(--bg-card); margin-bottom: 20px; }
+#panel-approvals .applications-toolbar label { display: flex; flex: 1 1 130px; flex-direction: column; gap: 8px; min-width: 0; font-size: 11px; font-weight: 600; color: var(--text-secondary); }
+#panel-approvals .applications-toolbar .applications-search { flex: 3 1 260px; }
+#panel-approvals .applications-toolbar :is(input,select) { width: 100%; box-sizing: border-box; min-width: 0; min-height: 42px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg-surface); color: var(--text-primary); padding: 10px 12px; font: inherit; font-size: 13px; color-scheme: light dark; }
+#panel-approvals .applications-filter-error { flex-basis: 100%; color: var(--red); font-size: 12px; }
+#panel-approvals .applications-tabs { display: flex; flex-wrap: wrap; gap: 6px; padding: 6px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 24px; }
+#panel-approvals .applications-tabs .btn { flex: 1 0 auto; min-height: 39px; border-radius: 8px; font-size: 12px; box-shadow: none; }
+#panel-approvals .applications-tabs .btn-ghost { border-color: transparent; background: transparent; }
+#panel-approvals .applications-tabs [aria-current="page"] { box-shadow: 0 3px 9px rgba(22,135,201,.15); }
+#panel-approvals .applications-list-heading { display: flex; justify-content: space-between; align-items: center; gap: 18px; margin-bottom: 18px; }
+#panel-approvals .applications-list-heading h2 { font-size: 16px; margin: 0 0 6px; }
+#panel-approvals .applications-list-heading p { font-size: 12px; color: var(--text-muted); margin: 0; line-height: 1.6; }
+#panel-approvals .applications-list-heading > span { flex-shrink: 0; padding: 6px 10px; border-radius: 20px; background: rgba(22,135,201,.09); color: var(--accent); font-size: 11px; font-weight: 600; }
+#panel-approvals .applications-list { display: grid; gap: 12px; }
+#panel-approvals .applications-selection-bar { flex-wrap: wrap; gap: 12px; margin-bottom: 0 !important; min-height: 46px; box-sizing: border-box; background: var(--bg-card) !important; }
+#panel-approvals .applications-selection-bar label { font-size: 12px !important; }
+#panel-approvals input[type="checkbox"] { accent-color: var(--accent); width: 17px; height: 17px; cursor: pointer; flex-shrink: 0; }
+#panel-approvals .app-card-wrapper { display: grid; grid-template-columns: 20px minmax(0, 1fr); gap: 15px; padding: 20px; border-radius: 13px; box-shadow: 0 2px 8px rgba(15,45,70,.035); transition: border-color .15s, box-shadow .15s; }
+#panel-approvals .app-card-wrapper:hover { transform: none; box-shadow: 0 3px 12px rgba(15,45,70,.06); border-color: var(--border); }
+#panel-approvals .app-card-wrapper[data-selected="true"] { box-shadow: inset 3px 0 0 var(--accent); }
+#panel-approvals .app-card-wrapper > input { align-self: start; margin-top: 7px; }
+#panel-approvals .responsive-app-grid { grid-column: 1 / -1; grid-template-columns: 1.5fr 1.15fr 1.1fr .7fr 1fr; gap: 18px; align-items: start; width: 100%; }
+#panel-approvals .app-card-wrapper:has(> input) .responsive-app-grid { grid-column: 2; }
+#panel-approvals .responsive-app-grid > div { grid-column: auto; line-height: 1.5; overflow-wrap: anywhere; }
+#panel-approvals .responsive-app-grid > div:first-child > div:nth-child(2) { font-size: 15px !important; }
+#panel-approvals .responsive-app-grid > div:first-child > div[title] { max-width: none !important; }
+#panel-approvals .responsive-app-grid > div > span { display: inline-block; font-size: 11px !important; line-height: 1.5; }
+#panel-approvals .app-card-actions-wrapper { grid-column: 1 / -1; display: flex; flex-direction: row; flex-wrap: wrap; justify-content: flex-end; align-items: center; width: 100%; margin-top: 0; gap: 8px; padding-top: 13px; border-top: 1px solid var(--border); }
+#panel-approvals .app-card-actions-wrapper .btn { min-height: 36px; border-radius: 8px; padding: 8px 13px !important; font-size: 12px !important; }
+#panel-approvals .application-waiting { margin-right: auto; color: var(--text-secondary); font-size: 11px; font-weight: 600; padding: 6px 9px; border-radius: 6px; background: rgba(22,135,201,.065); }
+#panel-approvals .application-appointment-actions { flex-direction: row !important; justify-content: space-between; align-items: center !important; gap: 16px; }
+#panel-approvals .application-appointment-actions > div:last-child { display: flex; flex-wrap: wrap; gap: 8px; }
+#panel-approvals .application-appointment-actions > div:last-child > div { flex-wrap: wrap; }
+#panel-approvals .application-appointment-actions .btn[style*="var(--red)"] { margin-right: 10px; }
+#panel-approvals .applications-list > div:only-child:not(.app-card-wrapper):not(.admin-app-pagination) { background: var(--bg-card); border: 1px dashed var(--border); border-radius: 13px; padding: 40px 20px !important; }
+#panel-approvals :is(input,select,button):focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+#panel-approvals .admin-app-pagination { padding: 16px 0 8px; }
+@container (max-width: 1000px) {
+  #panel-approvals .responsive-app-grid { grid-template-columns: repeat(3, minmax(0,1fr)); }
+  #panel-approvals .responsive-app-grid > div:nth-child(1), #panel-approvals .responsive-app-grid > div:nth-child(5) { grid-column: auto; }
+  #panel-approvals .applications-list[data-stage="transfer"] .responsive-app-grid > div:nth-child(2) { grid-column: 1 / -1 !important; }
+}
+@container (max-width: 600px) {
+  #panel-approvals .applications-header-note { max-width: none; }
+  #panel-approvals .applications-toolbar { padding: 14px; gap: 12px; }
+  #panel-approvals .applications-toolbar .applications-search { flex-basis: 100%; }
+  #panel-approvals .applications-tabs { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); }
+  #panel-approvals .applications-tabs .btn { font-size: 11px; white-space: normal !important; }
+  #panel-approvals .app-card-wrapper { padding: 16px; gap: 10px; }
+  #panel-approvals .responsive-app-grid { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 14px; }
+  #panel-approvals .responsive-app-grid > div:first-child { grid-column: 1 / -1 !important; }
+  #panel-approvals .applications-list[data-stage="cancelled"] .responsive-app-grid > div:last-child { grid-column: 1 / -1 !important; }
+  #panel-approvals .application-waiting { flex-basis: 100%; }
+  #panel-approvals .app-card-actions-wrapper > .btn { flex: 1; }
+  #panel-approvals .application-appointment-actions > div { width: 100%; }
+  #panel-approvals .application-appointment-actions > div:last-child { justify-content: flex-start !important; }
+}
+
+@media (max-width: 620px) {
+  .admin-app-pagination { align-items: stretch; flex-direction: column; }
+  .admin-app-pagination > div { justify-content: space-between; }
+  .admin-app-pagination .btn { flex: 1; }
+}

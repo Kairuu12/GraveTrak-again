@@ -1,0 +1,11 @@
+.cemetery-map-loading { position: absolute; inset: 0; z-index: 1200; display: grid; place-items: center; padding: 24px; background: radial-gradient(ellipse at 50% 40%, #e6f4fc, #f6f9fc 70%); color: #17283d; }
+.cemetery-map-loading-card { width: min(100%, 400px); text-align: center; padding: 32px 24px; background: #ffffffed; border: 1px solid #dbe8f2; border-radius: 20px; box-shadow: 0 16px 48px #163e6410; }
+.cemetery-map-loader { position: relative; width: 76px; height: 76px; display: grid; place-items: center; margin: 0 auto 22px; color: #1687c9; }
+.cemetery-map-loader::before { content: ''; position: absolute; inset: 0; border: 3px solid #e4eff8; border-top-color: #1687c9; border-right-color: #1687c9; border-radius: 50%; animation: cemetery-loader-spin 1.1s linear infinite; }
+.cemetery-map-loader svg { width: 30px; height: 30px; }
+.cemetery-map-loader.has-error::before { animation: none; border-color: #e8c2bd; }
+.cemetery-map-loading-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1.4px; font-weight: 700; color: #1687c9; }
+.cemetery-map-loading h2 { font-size: 20px; margin: 10px 0; letter-spacing: -.3px; }
+.cemetery-map-loading p { color: #586d84; font-size: 13px; line-height: 1.7; margin: 0 0 14px; }
+@keyframes cemetery-loader-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .cemetery-map-loader::before { animation: none; } }

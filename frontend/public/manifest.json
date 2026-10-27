@@ -1,0 +1,64 @@
+{
+  "id": "/",
+  "name": "GraveTrak - Geospatial Cemetery Management System",
+  "short_name": "GraveTrak",
+  "description": "Geospatial Cemetery Navigation and Burial Management System for Lucena City Public Cemeteries",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": [
+    "standalone",
+    "window-controls-overlay"
+  ],
+  "orientation": "any",
+  "background_color": "#ffffff",
+  "theme_color": "#1687c9",
+  "icons": [
+    {
+      "src": "/icons/gravetrak-app-icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/gravetrak-app-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/gravetrak-logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Find a Grave",
+      "short_name": "Search Map",
+      "description": "Locate a grave plot with navigation and map view",
+      "url": "/map",
+      "icons": [
+        {
+          "src": "/icons/gravetrak-app-icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Apply for Burial",
+      "short_name": "Apply",
+      "description": "Submit a burial application and required documents",
+      "url": "/apply",
+      "icons": [
+        {
+          "src": "/icons/gravetrak-app-icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ],
+  "categories": [
+    "government",
+    "navigation",
+    "utilities"
+  ]
+}

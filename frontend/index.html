@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script type="module">
+      // Run independently of React so an old cached module cannot block recovery.
+      if (import.meta.env.DEV && 'serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistrations().then(registrations => {
+          for (const registration of registrations) {
+            const worker = registration.active || registration.waiting || registration.installing;
+            if (worker && new URL(worker.scriptURL).pathname === '/sw.js') {
+              registration.update().catch(console.warn);
+            }
+          }
+        }).catch(console.warn);
+      }
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GraveTrak — Cemetery Geospatial Mapping &amp; Navigation System | Lucena City</title>
+    <meta name="description" content="Find a loved one's resting place, get GPS directions, and access burial services at Lucena Old &amp; New Public Cemetery with GraveTrak." />
+    <meta name="keywords" content="GraveTrak, Lucena City, cemetery mapping, find grave, public cemetery, burial application, GPS navigation" />
+    <meta property="og:title" content="GraveTrak — Lucena City Public Cemetery" />
+    <meta property="og:description" content="Navigate with care. Remember with ease. Search graves, get walking directions, and apply for burial services online." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="/images/cemetery/cemetery-overview.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="GraveTrak — Lucena City Public Cemetery" />
+    <meta name="twitter:description" content="Navigate with care. Remember with ease. Geospatial mapping and grave navigation." />
+    <link rel="icon" type="image/svg+xml" href="/icons/gravetrak-logo.svg" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/icons/gravetrak-app-icon-192.png" />
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#1687c9" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="GraveTrak" />
+    <link rel="apple-touch-icon" href="/icons/gravetrak-app-icon-192.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <script defer src="https://cdn.jsdelivr.net/npm/@turf/turf@6/turf.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

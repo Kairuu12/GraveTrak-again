@@ -1,0 +1,132 @@
+#panel-settings .admin-settings-content {
+  width: min(100%, 430px);
+  margin: 0 auto;
+  padding: 0 0 32px;
+  display: grid;
+  gap: 14px;
+  color: var(--text-primary);
+}
+
+#panel-settings .admin-settings-card {
+  min-width: 0;
+  padding: 16px 18px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg-card);
+  box-shadow: var(--shadow-sm);
+}
+
+#panel-settings .admin-settings-card-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 4px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+#panel-settings .admin-settings-card-heading h2 {
+  margin: 0 0 4px;
+  color: var(--accent);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+#panel-settings .admin-settings-card-heading p {
+  max-width: 38ch;
+  margin: 4px 0 0;
+  color: var(--text-secondary);
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+#panel-settings .admin-settings-fields { display: grid; gap: 14px; margin-top: 16px; }
+#panel-settings .admin-settings-field { display: grid; gap: 7px; color: var(--text-secondary); font-size: 11px; }
+#panel-settings .admin-settings-field input {
+  width: 100%;
+  min-width: 0;
+  min-height: 42px;
+  padding: 9px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-input, var(--bg-surface));
+  color: var(--text-primary);
+  font: inherit;
+  font-size: 13px;
+}
+
+#panel-settings .admin-settings-rows { display: grid; }
+#panel-settings .admin-settings-row {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 13px 0;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+}
+#panel-settings .admin-settings-row:last-child { padding-bottom: 2px; border-bottom: 0; }
+#panel-settings .admin-settings-row > span { display: grid; min-width: 0; gap: 4px; }
+#panel-settings .admin-settings-row strong { color: var(--text-primary); font-size: 12px; font-weight: 600; }
+#panel-settings .admin-settings-row small { color: var(--text-secondary); font-size: 11px; line-height: 1.5; }
+#panel-settings .admin-settings-row input[type="checkbox"] {
+  position: relative;
+  width: 42px;
+  height: 24px;
+  flex: 0 0 42px;
+  margin: 0;
+  appearance: none;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: #9aa8a4;
+  cursor: pointer;
+  transition: background .16s ease, border-color .16s ease;
+}
+#panel-settings .admin-settings-row input[type="checkbox"]::after {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 3px #0002;
+  content: "";
+  transition: transform .16s ease;
+}
+#panel-settings .admin-settings-row input[type="checkbox"]:checked { border-color: var(--accent); background: var(--accent); }
+#panel-settings .admin-settings-row input[type="checkbox"]:checked::after { transform: translateX(18px); }
+#panel-settings .admin-settings-row input[type="radio"] { width: 18px; height: 18px; flex: 0 0 18px; margin: 0 5px; accent-color: var(--accent); cursor: pointer; }
+
+#panel-settings .admin-settings-actions-list { display: grid; gap: 8px; padding-top: 12px; }
+#panel-settings .admin-settings-actions-list .btn {
+  width: 100%;
+  min-height: 42px;
+  justify-content: flex-start;
+  padding: 9px 12px;
+  border: 1px solid var(--border);
+  background: var(--bg-surface);
+  text-align: left;
+}
+#panel-settings .admin-settings-actions-list .admin-settings-export { color: var(--emerald); }
+#panel-settings .admin-settings-actions-list .admin-settings-reset { color: var(--red); }
+#panel-settings .admin-settings-save-actions { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; padding: 4px 0; }
+#panel-settings .admin-settings-save-actions .btn { min-height: 42px; }
+#panel-settings .admin-settings-logout { width: 100%; min-height: 42px; border: 1px solid rgba(239,68,68,.25); background: rgba(239,68,68,.08); color: var(--red); }
+#panel-settings .admin-settings-content :is(button, input):focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+
+@media (max-width: 620px) {
+  #panel-settings .admin-settings-content { gap: 16px; padding-bottom: 24px; }
+  #panel-settings .admin-settings-card { padding: 20px 16px; }
+  #panel-settings .admin-settings-card-heading { padding-bottom: 14px; }
+  #panel-settings .admin-settings-row { gap: 10px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #panel-settings .admin-settings-row input[type="checkbox"],
+  #panel-settings .admin-settings-row input[type="checkbox"]::after { transition: none; }
+}

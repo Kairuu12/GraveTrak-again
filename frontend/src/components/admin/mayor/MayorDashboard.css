@@ -1,0 +1,172 @@
+/* Executive dashboard only: keep every control and card in document order. */
+@media screen {
+  #panel-mayor-dash .mayor-dashboard-content {
+    padding: clamp(16px, 2vw, 28px);
+    background: linear-gradient(145deg, rgba(22, 135, 201, .055), transparent 55%), var(--bg-surface);
+    container-type: inline-size;
+    container-name: mayor-dashboard;
+  }
+
+  #panel-mayor-dash .page-hdr {
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 16px;
+    padding: 18px 20px;
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--accent);
+    border-radius: var(--radius-lg);
+    background: var(--bg-card);
+    box-shadow: 0 3px 12px rgba(18, 51, 93, .04);
+  }
+
+  #panel-mayor-dash .page-title { font-size: clamp(19px, 1.5vw, 24px); line-height: 1.3; }
+  #panel-mayor-dash .page-sub { line-height: 1.5; }
+  #panel-mayor-dash .page-actions { margin-left: auto; }
+  #panel-mayor-dash .mayor-scope-note { background: rgba(22, 135, 201, .055); line-height: 1.5; }
+
+  #panel-mayor-dash .mayor-summary-grid,
+  #panel-mayor-dash .mayor-timing-grid {
+    display: grid;
+    gap: 14px;
+    margin-bottom: 16px;
+  }
+  #panel-mayor-dash .mayor-summary-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+  #panel-mayor-dash .mayor-timing-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  #panel-mayor-dash .mayor-summary-grid > .mayor-stat-card {
+    border-top: 3px solid rgba(22, 135, 201, .45) !important;
+    padding: 16px !important;
+  }
+  #panel-mayor-dash .mayor-summary-grid > .mayor-stat-card > div:nth-child(2) {
+    font-size: clamp(25px, 2.1vw, 34px) !important;
+    line-height: 1.2;
+    font-variant-numeric: tabular-nums;
+    overflow-wrap: anywhere;
+  }
+  #panel-mayor-dash .mayor-summary-grid > .mayor-stat-card > div:last-child { line-height: 1.5; }
+  #panel-mayor-dash .mayor-stat-card { box-shadow: 0 3px 14px rgba(18, 51, 93, .055); }
+  #panel-mayor-dash .mayor-stat-card:hover { transform: none; box-shadow: 0 5px 18px rgba(18, 51, 93, .09); }
+
+  #panel-mayor-dash .mayor-dash-grid {
+    grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr);
+    gap: 14px;
+    margin-bottom: 16px;
+  }
+  #panel-mayor-dash .mayor-analytics-grid { gap: 14px; margin-bottom: 16px; }
+  #panel-mayor-dash .mayor-analytics-header { margin-bottom: 16px; flex-wrap: wrap; }
+  #panel-mayor-dash .mayor-status-layout { gap: 12px; }
+  #panel-mayor-dash .mayor-status-donut { width: 110px; height: 110px; }
+  #panel-mayor-dash .mayor-status-row span { white-space: normal; }
+  #panel-mayor-dash .mayor-trend-chart {
+    background: repeating-linear-gradient(to top, transparent 0, transparent 39px, rgba(148, 163, 184, .1) 39px, rgba(148, 163, 184, .1) 40px);
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 6px;
+  }
+  /* Pair the short overview cards, then the two application lists. Unlike
+     the old interview/pending pairing, long lists cannot create a top-row gap. */
+  #panel-mayor-dash .mayor-activity-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+    align-items: stretch;
+    justify-content: flex-start;
+    height: auto;
+    min-height: 0;
+    flex: 0 0 auto;
+  }
+  #panel-mayor-dash .mayor-activity-column {
+    display: contents;
+  }
+  #panel-mayor-dash .mayor-activity-column > .mayor-stat-card {
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    flex: 0 0 auto;
+    box-sizing: border-box;
+    padding: 0 !important;
+    border-radius: 16px !important;
+    background: var(--bg-card) !important;
+  }
+  #panel-mayor-dash .mayor-activity-column > .mayor-stat-card > div:first-child {
+    padding: 18px 20px;
+    margin-bottom: 0 !important;
+    gap: 12px;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(110deg, rgba(22, 135, 201, .07), transparent);
+  }
+  #panel-mayor-dash .mayor-activity-column > .mayor-stat-card > div:first-child > div { min-width: 0; }
+  #panel-mayor-dash .mayor-activity-column > .mayor-stat-card > div:first-child .btn {
+    flex-shrink: 0;
+    min-height: 32px;
+    border-color: var(--border);
+    background: var(--bg-card);
+  }
+  #panel-mayor-dash .mayor-activity-column > .mayor-stat-card > div:last-child {
+    padding: 14px;
+    gap: 10px !important;
+  }
+  #panel-mayor-dash .mayor-activity-column > .mayor-stat-card > div:last-child > div {
+    padding: 14px !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 10px !important;
+    background: var(--bg-surface) !important;
+    line-height: 1.5;
+  }
+  #panel-mayor-dash .mayor-activity-column > .mayor-stat-card > div:last-child > div:only-child:not([style*="display: flex"]) {
+    border-style: dashed !important;
+    padding: 24px 16px !important;
+  }
+  #panel-mayor-dash .mayor-activity-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 24px;
+    padding: 2px 7px;
+    margin-left: 8px;
+    border-radius: 6px;
+    background: rgba(22, 135, 201, .1);
+    color: var(--accent);
+    font-size: 11px;
+    font-weight: 700;
+    vertical-align: middle;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Both application lists reserve the same three-line content space.
+     Use a minimum rather than a fixed height so enlarged text can still fit. */
+  #panel-mayor-dash .mayor-application-record {
+    box-sizing: border-box;
+    min-height: 96px;
+  }
+
+  @container mayor-dashboard (max-width: 1100px) {
+    #panel-mayor-dash .mayor-summary-grid { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+    #panel-mayor-dash .mayor-summary-grid > * { grid-column: span 2; }
+    #panel-mayor-dash .mayor-summary-grid > :nth-last-child(-n+2) { grid-column: span 3; }
+    #panel-mayor-dash .mayor-analytics-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    #panel-mayor-dash .mayor-analytics-grid > :last-child { grid-column: 1 / -1; }
+  }
+  @container mayor-dashboard (max-width: 760px) {
+    #panel-mayor-dash .mayor-dash-grid,
+    #panel-mayor-dash .mayor-analytics-grid,
+    #panel-mayor-dash .mayor-activity-grid { grid-template-columns: minmax(0, 1fr); }
+    #panel-mayor-dash .mayor-analytics-grid > :last-child { grid-column: auto; }
+    #panel-mayor-dash .page-actions { margin-left: 0; }
+    #panel-mayor-dash .mayor-status-layout { grid-template-columns: auto minmax(0, 1fr); }
+  }
+  @container mayor-dashboard (max-width: 480px) {
+    #panel-mayor-dash .mayor-summary-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    #panel-mayor-dash .mayor-summary-grid > * { grid-column: auto; }
+    #panel-mayor-dash .mayor-summary-grid > :nth-last-child(2) { grid-column: auto; }
+    #panel-mayor-dash .mayor-summary-grid > :last-child { grid-column: 1 / -1; }
+    #panel-mayor-dash .mayor-timing-grid { grid-template-columns: minmax(0, 1fr); }
+    #panel-mayor-dash .page-hdr { padding: 14px; }
+    #panel-mayor-dash .plot-distribution-card > div:last-child { grid-template-columns: minmax(0, 1fr) !important; }
+    #panel-mayor-dash .mayor-slots-donut { margin: auto; }
+  }
+}
+
+@media print {
+  #panel-mayor-dash .mayor-summary-grid,
+  #panel-mayor-dash .mayor-timing-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-bottom: 16px; }
+}

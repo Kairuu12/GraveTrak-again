@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="tl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lucena Public Cemetery Map</title>
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@turf/turf@6/turf.min.js"></script>
+    
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            background-color: #f4f4f4;
+            overflow: hidden;
+        }
+        #map {
+            height: 100vh;
+            width: 100%;
+        }
+
+        /* Centered Modal Panel */
+        #side-panel {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -40%);
+            width: 400px;
+            max-width: 90%;
+            max-height: 85vh;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            padding: 24px;
+            box-sizing: border-box;
+            font-family: sans-serif;
+            overflow-y: auto;
+        }
+        #side-panel.open {
+            transform: translate(-50%, -50%);
+            opacity: 1;
+            visibility: visible;
+        }
+        .close-btn {
+            float: right;
+            cursor: pointer;
+            color: #94a3b8;
+            font-weight: bold;
+            font-size: 20px;
+            transition: color 0.2s;
+        }
+        .close-btn:hover {
+            color: #ef4444;
+        }
+        #panel-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+        }
+        .niche-slot {
+            background: #f8fafc;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            padding: 40px 20px;
+            text-align: center;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        .niche-slot:hover {
+            border-color: #94a3b8;
+            background: #f1f5f9;
+        }
+        .niche-slot h4 { margin: 0 0 12px 0; color: #1e293b; font-size: 20px; }
+        .niche-slot p { margin: 0; font-size: 14px; color: #64748b; }
+        .status-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            background: #dcfce7;
+            color: #166534;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="map"></div>
+
+    <div id="side-panel">
+        <span class="close-btn" onclick="closePanel()">X</span>
+        <h2 id="panel-title" style="margin-top: 0; color: #0f172a;">Plot Details</h2>
+        <hr style="border: 1px solid #e2e8f0; margin-bottom: 20px;">
+        <div id="panel-content"></div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <script>
+        // Function to subdivide Section A into 84 angled and clipped grave plot polygons (2 rows x 42 columns - vertical layout)
+        function generateGravePlots(sectionAPolygon) {
+            const coords = sectionAPolygon.coordinates[0];
+            
+            const get2D = (c) => [c[0], c[1]];
+            const p0 = get2D(coords[0]); 
+            const p1 = get2D(coords[1]); 
+            const p2 = get2D(coords[2]); 
+            const p3 = get2D(coords[3]); 
+            
+            const topEdge = turf.lineString([p0, p1]);
+            const bottomEdge = turf.lineString([p3, p2]);
+
+            const cols = 42;
+            const topLength = turf.length(topEdge, {units: 'meters'});
+            const bottomLength = turf.length(bottomEdge, {units: 'meters'});
+            
+            const topStep = topLength / cols;
+            const bottomStep = bottomLength / cols;
+            
+            const topPts = [];
+            const bottomPts = [];
+            const centerPts = [];
+            
+            for (let i = 0; i <= cols; i++) {
+                const tPt = turf.along(topEdge, i * topStep, {units: 'meters'}).geometry.coordinates;
+                const bPt = turf.along(bottomEdge, i * bottomStep, {units: 'meters'}).geometry.coordinates;
+                
+                topPts.push(tPt);
+                bottomPts.push(bPt);
+                
+                const cPt = turf.midpoint(turf.point(tPt), turf.point(bPt)).geometry.coordinates;
+                centerPts.push(cPt);
+            }
+            
+            const gravePlots = [];
+            
+            for (let i = 0; i < cols; i++) {
+                const topPlot = turf.polygon([[
+                    topPts[i],
+                    topPts[i+1],
+                    centerPts[i+1],
+                    centerPts[i],
+                    topPts[i]
+                ]], {
+                    "plotNumber": i + 1,
+                    "side": "Top",
+                    "name": `Plot A-Top-${i + 1}`,
+                    "section": "A",
+                    "row": 1,
+                    "column": i + 1
+                });
+                gravePlots.push(topPlot);
+                
+                const bottomPlot = turf.polygon([[
+                    centerPts[i],
+                    centerPts[i+1],
+                    bottomPts[i+1],
+                    bottomPts[i],
+                    centerPts[i]
+                ]], {
+                    "plotNumber": i + 1,
+                    "side": "Bottom",
+                    "name": `Plot A-Bottom-${i + 1}`,
+                    "section": "A",
+                    "row": 2,
+                    "column": i + 1
+                });
+                gravePlots.push(bottomPlot);
+            }
+            
+            return {
+                "type": "FeatureCollection",
+                "features": gravePlots
+            };
+        }
+    </script>
+
+    <script>
+        // BUONG DATASET MO (May LineString para sa border at Polygons para sa mga puntod)
+        const akingGeoJson = {
+          "type": "FeatureCollection",
+          "features": [
+            {
+              "type": "Feature",
+              "properties": { "type": "border" },
+              "geometry": {
+                "coordinates": [
+                  [121.61999124131529, 13.939027053437371],
+                  [121.62007237222542, 13.939175273283041],
+                  [121.62190497632531, 13.938989998461224],
+                  [121.62189304530955, 13.938716717827049],
+                  [121.62177373514606, 13.9383484832412],
+                  [121.62134421856115, 13.93810994102634],
+                  [121.62129172208887, 13.93778107659736],
+                  [121.62085546962476, 13.93740466564428],
+                  [121.61999960200598, 13.939015847139046]
+                ],
+                "type": "LineString"
+              }
+            },
+            {
+              "type": "Feature",
+              "geometry": { "type": "Polygon", "coordinates": [[[121.6203214791338, 13.93855488284199, 0], [121.6205836356741, 13.93870262747862, 0], [121.6205599091991, 13.93874216581273, 0], [121.6202991675655, 13.93860249552575, 0], [121.6203214791338, 13.93855488284199, 0]]] },
+              "properties": { "name": "section A" }
+            },
+            {
+              "type": "Feature",
+              "geometry": { "type": "Polygon", "coordinates": [[[121.6203585162256, 13.93849364973904, 0], [121.620619326257, 13.93863210524747, 0], [121.6205960742709, 13.93867897263909, 0], [121.6203320005097, 13.93853997960028, 0], [121.6203585162256, 13.93849364973904, 0]]] },
+              "properties": { "name": "section B" }
+            },
+            {
+              "type": "Feature",
+              "geometry": { "type": "Polygon", "coordinates": [[[121.6203918539242, 13.93843281684503, 0], [121.6206526371996, 13.9385704710939, 0], [121.6206298176826, 13.93861144757171, 0], [121.6203683462329, 13.93847625955412, 0], [121.6203918539242, 13.93843281684503, 0]]] },
+              "properties": { "name": "section C" }
+            },
+            {
+              "type": "Feature",
+              "geometry": { "type": "Polygon", "coordinates": [[[121.6204229893675, 13.9383686592039, 0], [121.6206906474492, 13.93850328632113, 0], [121.6206657355948, 13.93854946151564, 0], [121.6204018509775, 13.93841084974111, 0], [121.6204229893675, 13.9383686592039, 0]]] },
+              "properties": { "name": "section D" }
+            },
+            {
+              "type": "Feature",
+              "geometry": { "type": "Polygon", "coordinates": [[[121.620458866835, 13.93830488512019, 0], [121.6207246560416, 13.93843918736268, 0], [121.6206990834441, 13.93848257222731, 0], [121.6204354676256, 13.938346065936, 0], [121.620458866835, 13.93830488512019, 0]]] },
+              "properties": { "name": "section E" }
+            },
+            {
+              "type": "Feature",
+              "geometry": { "type": "Polygon", "coordinates": [[[121.6204926576898, 13.93824001947731, 0], [121.6207581789731, 13.93837881378557, 0], [121.6207372737701, 13.938416721725, 0], [121.6204693004073, 13.93828306627575, 0], [121.6204926576898, 13.93824001947731, 0]]] },
+              "properties": { "name": "section F" }
+            },
+            {
+              "type": "Feature",
+              "geometry": { "type": "Polygon", "coordinates": [[[121.6207752074491, 13.93834197643966, 0], [121.6205138194776, 13.93820770218513, 0], [121.6205327819279, 13.93817321488939, 0], [121.6207929600694, 13.93830395172877, 0], [121.6207752074491, 13.93834197643966, 0]]] },
+              "properties": { "name": "section G" }
+            },
+            {
+              "type": "Feature",
+              "geometry": { "type": "Polygon", "coordinates": [[[121.6208044845237, 13.93828290291656, 0], [121.6205460499875, 13.93814866899483, 0], [121.6205664342077, 13.93811419562238, 0], [121.6208288200862, 13.93823858571403, 0], [121.6208044845237, 13.93828290291656, 0]]] },
+              "properties": { "name": "section H" }
+            },
+            {
+              "type": "Feature",
+              "geometry": { "type": "Polygon", "coordinates": [[[121.6205805688525, 13.93807695086402, 0], [121.6206036455713, 13.93803629148019, 0], [121.6208629281162, 13.93817737084802, 0], [121.6208376068272, 13.93821696851735, 0], [121.6205805688525, 13.93807695086402, 0]]] },
+              "properties": { "name": "section I" }
+            },
+            {
+              "type": "Feature",
+              "geometry": { "type": "Polygon", "coordinates": [[[121.6206105969996, 13.9380139951728, 0], [121.6206368598003, 13.93797154249795, 0], [121.6208978005792, 13.93811108737267, 0], [121.6208746647334, 13.93815336837249, 0], [121.6206105969996, 13.9380139951728, 0]]] },
+              "properties": { "name": "section J" }
+            },
+            {
+              "type": "Feature",
+              "geometry": { "type": "Polygon", "coordinates": [[[121.6206700242037, 13.93790621219462, 0], [121.6209336626595, 13.93804440680938, 0], [121.6209112588027, 13.93808784284815, 0], [121.620648278562, 13.93795135801644, 0], [121.6206700242037, 13.93790621219462, 0]]] },
+              "properties": { "name": "section K" }
+            },
+            {
+              "type": "Feature",
+              "geometry": { "type": "Polygon", "coordinates": [[[121.620706076701, 13.93784107389464, 0], [121.6209663616919, 13.93798271996177, 0], [121.6209440725993, 13.93802530582063, 0], [121.6206816294046, 13.93788791211609, 0], [121.620706076701, 13.93784107389464, 0]]] },
+              "properties": { "name": "section L" }
+            },
+            {
+              "type": "Feature",
+              "geometry": { "type": "Polygon", "coordinates": [[[121.6207401390505, 13.93777573012798, 0], [121.6210046380642, 13.93791655736139, 0], [121.6209795767243, 13.93795582643999, 0], [121.6207175814478, 13.93782014619143, 0], [121.6207401390505, 13.93777573012798, 0]]] },
+              "properties": { "name": "section M" }
+            },
+            {
+              "type": "Feature",
+              "geometry": { "type": "Polygon", "coordinates": [[[121.6207527579764, 13.93775982722373, 0], [121.6207738097278, 13.93771875273085, 0], [121.6210368182704, 13.9378529697783, 0], [121.621013724712, 13.93789440987628, 0], [121.6207527579764, 13.93775982722373, 0]]] },
+              "properties": { "name": "section N" }
+            }
+          ]
+        };
+
+        // NEW PATHWAYS GEOJSON DATA (UPDATED)
+        const pathwaysGeoJson = {
+          "type": "FeatureCollection",
+          "features": [
+            { "type": "Feature", "geometry": { "type": "LineString", "coordinates": [ [ 121.6203097766633, 13.93899233350628, 0 ], [ 121.6203584928815, 13.93866505589906, 0 ] ] } },
+            { "type": "Feature", "geometry": { "type": "LineString", "coordinates": [ [ 121.6203589624657, 13.93866570137616, 0 ], [ 121.6202633991534, 13.9386157604762, 0 ] ] } },
+            { "type": "Feature", "geometry": { "type": "LineString", "coordinates": [ [ 121.6202636336396, 13.93861599133661, 0 ], [ 121.6207691259841, 13.93768972950759, 0 ] ] } },
+            { "type": "Feature", "geometry": { "type": "LineString", "coordinates": [ [ 121.6207696626524, 13.93768844156369, 0 ], [ 121.6210990304713, 13.93785539984345, 0 ] ] } },
+            { "type": "Feature", "geometry": { "type": "LineString", "coordinates": [ [ 121.6210988777536, 13.93785570890425, 0 ], [ 121.6205429698922, 13.9388352505232, 0 ] ] } },
+            { "type": "Feature", "geometry": { "type": "LineString", "coordinates": [ [ 121.6203102036869, 13.93899271768179, 0 ], [ 121.620542510091, 13.93883577310531, 0 ] ] } },
+            { "type": "Feature", "geometry": { "type": "LineString", "coordinates": [ [ 121.6205693025217, 13.93878730958559, 0 ], [ 121.6203585210953, 13.9386656315023, 0 ] ] } },
+            { "type": "Feature", "geometry": { "type": "LineString", "coordinates": [ [ 121.6206169233314, 13.93870519321376, 0 ], [ 121.6203040047124, 13.93854128185203, 0 ] ] } },
+            { "type": "Feature", "geometry": { "type": "LineString", "coordinates": [ [ 121.6203401274686, 13.9384832545099, 0 ], [ 121.620645619438, 13.93864156157817, 0 ] ] } },
+            { "type": "Feature", "geometry": { "type": "LineString", "coordinates": [ [ 121.6203699208617, 13.93841603949021, 0 ], [ 121.6206882841611, 13.93857896318904, 0 ] ] } },
+            { "type": "Feature", "geometry": { "type": "LineString", "coordinates": [ [ 121.6204089369007, 13.93835273026727, 0 ], [ 121.6207266606266, 13.93851093509283, 0 ] ] } },
+            { "type": "Feature", "geometry": { "type": "LineString", "coordinates": [ [ 121.6204447661765, 13.93828480202759, 0 ], [ 121.620765687285, 13.93844332484876, 0 ] ] } },
+            { "type": "Feature", "geometry": { "type": "LineString", "coordinates": [ [ 121.6207986009202, 13.93838313067971, 0 ], [ 121.6204845516553, 13.93821377737424, 0 ] ] } },
+            { "type": "Feature", "geometry": { "type": "LineString", "coordinates": [ [ 121.6208361631577, 13.93831639836455, 0 ], [ 121.6205207165578, 13.93814063083429, 0 ] ] } },
+            { "type": "Feature", "geometry": { "type": "LineString", "coordinates": [ [ 121.6208719831922, 13.93825444009267, 0 ], [ 121.6205554134991, 13.93808348036579, 0 ] ] } },
+            { "type": "Feature", "geometry": { "type": "LineString", "coordinates": [ [ 121.6209115950159, 13.93818775444382, 0 ], [ 121.6205857579615, 13.93801831042932, 0 ] ] } },
+            { "type": "Feature", "geometry": { "type": "LineString", "coordinates": [ [ 121.6209447733714, 13.93812333800867, 0 ], [ 121.6206199135002, 13.93795400783719, 0 ] ] } },
+            { "type": "Feature", "geometry": { "type": "LineString", "coordinates": [ [ 121.6209809616032, 13.93806441225721, 0 ], [ 121.6206536863501, 13.93788730897051, 0 ] ] } },
+            { "type": "Feature", "geometry": { "type": "LineString", "coordinates": [ [ 121.6210206418197, 13.93799310174213, 0 ], [ 121.6206948283482, 13.93782388134606, 0 ] ] } },
+            { "type": "Feature", "geometry": { "type": "LineString", "coordinates": [ [ 121.6210545088034, 13.93793320622179, 0 ], [ 121.6207310628712, 13.93776074103812, 0 ] ] } },
+            { "type": "Feature", "geometry": { "type": "LineString", "coordinates": [ [ 121.6203102062417, 13.93899248769833, 0 ], [ 121.6197641462361, 13.93933006880536, 0 ] ] } }
+          ]
+        };
+
+        // --- COLUMBARIUM SIDE PANEL LOGIC ---
+        function closePanel() {
+            const panel = document.getElementById('side-panel');
+            if (panel) panel.classList.remove('open');
+        }
+
+        function openPanel(feature) {
+            const props = feature.properties;
+            document.getElementById('panel-title').innerHTML = props.name || "Plot Details";
+            
+            let nichesHTML = '';
+            for(let j = 1; j <= 4; j++) {
+                nichesHTML += `
+                    <div class="niche-slot">
+                        <h4>Floor ${j}</h4>
+                        <p><span class="status-badge">Available</span></p>
+                    </div>
+                `;
+            }
+            document.getElementById('panel-content').innerHTML = nichesHTML;
+            document.getElementById('side-panel').classList.add('open');
+        }
+
+        // 1. Initialize Map
+        const map = L.map('map', {
+            minZoom: 19,
+            maxZoom: 22,
+            zoomSnap: 1,
+            zoomDelta: 1
+        });
+
+        map.on('click', function() {
+            closePanel();
+        });
+
+        // 2. CartoDB Positron Basemap Layer
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+            maxNativeZoom: 20,
+            maxZoom: 22
+        }).addTo(map);
+
+        // 3. I-load at i-style ang GeoJSON layers (Kalsada/Border at Plots)
+        const geojsonLayer = L.geoJSON(akingGeoJson, {
+            style: function(feature) {
+                if (feature.properties && feature.properties.type === 'border') {
+                    return { color: '#2196F3', weight: 3, fillOpacity: 0 };
+                }
+                return { fillColor: '#FF9800', fillOpacity: 0.7, color: '#E65100', weight: 2 };
+            },
+            onEachFeature: function(feature, layer) {
+                if (feature.properties && feature.properties.name) {
+                    layer.bindPopup("<div style='font-family: sans-serif; font-size: 14px;'>Sementeryo Plot: <strong>" + feature.properties.name.toUpperCase() + "</strong></div>");
+                    
+                    layer.on({
+                        mouseover: function(e) { e.target.setStyle({ fillOpacity: 0.9 }); },
+                        mouseout: function(e) { geojsonLayer.resetStyle(e.target); }
+                    });
+                }
+            }
+        }).addTo(map);
+
+        // 4. PATHWAYS LAYER (Na-upgrade na styling para magmukhang totoong daanan)
+        
+        // 4a. Outer Pathway (Border/Outline ng daanan)
+        L.geoJSON(pathwaysGeoJson, {
+            style: {
+                color: '#a8a29e',   // Darker stone outline
+                weight: 6,          // Mas makapal para magsilbing border
+                opacity: 0.9,
+                lineCap: 'round',
+                lineJoin: 'round'
+            },
+            interactive: false      // Para hindi i-block nito yung pag-click mo sa mga lote sa ilalim
+        }).addTo(map);
+
+        // 4b. Inner Pathway (Laman / Pavement ng daanan)
+        L.geoJSON(pathwaysGeoJson, {
+            style: {
+                color: '#ffffff',   // White concrete color
+                weight: 3,          // Manipis para pumatong sa gitna
+                opacity: 1.0,
+                lineCap: 'round',
+                lineJoin: 'round'
+            },
+            interactive: false
+        }).addTo(map);
+
+        // 5. Generate and render Section A grave plots
+        const sectionAPolygon = {
+            "type": "Polygon",
+            "coordinates": [[[121.6203214791338, 13.93855488284199, 0], [121.6205836356741, 13.93870262747862, 0], [121.6205599091991, 13.93874216581273, 0], [121.6202991675655, 13.93860249552575, 0], [121.6203214791338, 13.93855488284199, 0]]]
+        };
+        
+        const gravePlotsGeoJSON = generateGravePlots(sectionAPolygon);
+        
+        const gravePlotsLayer = L.geoJSON(gravePlotsGeoJSON, {
+            style: function(feature) {
+                return { fillColor: '#FF9800', fillOpacity: 0.7, color: '#E65100', weight: 1 };
+            },
+            onEachFeature: function(feature, layer) {
+                layer.on({
+                    click: function(e) {
+                        L.DomEvent.stopPropagation(e);
+                        openPanel(feature);
+                    },
+                    mouseover: function(e) { e.target.setStyle({ fillOpacity: 0.9 }); },
+                    mouseout: function(e) { e.target.setStyle({ fillOpacity: 0.7 }); }
+                });
+            }
+        }).addTo(map);
+
+        // 6. Auto-Zoom
+        const cemeteryBounds = geojsonLayer.getBounds();
+        map.fitBounds(cemeteryBounds);
+    </script>
+</body>
+</html>

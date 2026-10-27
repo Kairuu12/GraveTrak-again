@@ -1,0 +1,60 @@
+/* Scope the bounded dialog to CPDO section creation/editing only. */
+.modal-overlay.cpdo-section-overlay {
+  height: 100vh;
+  height: 100dvh;
+  padding: 24px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.cpdo-section-overlay > .cpdo-section-modal {
+  width: 620px;
+  max-width: 100%;
+  max-height: min(780px, 100%);
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.cpdo-section-modal > .modal-header,
+.cpdo-section-modal > .cpdo-section-footer {
+  flex: 0 0 auto;
+  padding: 16px 22px;
+  background: var(--bg-card);
+}
+
+.cpdo-section-modal > .modal-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  min-width: 0;
+  padding: 18px 22px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+}
+
+.cpdo-section-modal input,
+.cpdo-section-modal select,
+.cpdo-section-modal textarea {
+  box-sizing: border-box;
+  max-width: 100%;
+  min-width: 0;
+}
+
+.cpdo-section-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  border-top: 1px solid var(--border);
+}
+
+@media (max-width: 600px), (max-height: 500px) {
+  .modal-overlay.cpdo-section-overlay { padding: 12px; }
+  .cpdo-section-modal > .modal-header,
+  .cpdo-section-modal > .cpdo-section-footer { padding: 12px 16px; }
+  .cpdo-section-modal > .modal-body { padding: 16px; }
+}

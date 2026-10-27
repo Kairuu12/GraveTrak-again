@@ -1,0 +1,67 @@
+.leaflet-container .leaflet-basemap-control {
+  position: absolute;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  float: none;
+  margin: 0;
+  z-index: 1002;
+  max-width: calc(100% - 32px);
+  color: var(--text-primary, #172033);
+}
+
+.leaflet-basemap-choices {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  padding: 4px;
+  border: 1px solid var(--border, #dbe4ee);
+  border-radius: 14px;
+  background: var(--bg-card, #fff);
+  box-shadow: 0 4px 14px rgba(15, 23, 42, .16);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+
+.leaflet-basemap-button {
+  min-height: 38px;
+  padding: 7px 14px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--text-secondary, #526174);
+  cursor: pointer;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .01em;
+  transition: background .16s ease, color .16s ease, box-shadow .16s ease, transform .16s ease;
+}
+
+.leaflet-basemap-button:hover:not([aria-pressed="true"]) { background: color-mix(in srgb, var(--accent, #1687c9) 9%, transparent); color: var(--text-primary, #172033); }
+.leaflet-basemap-button[aria-pressed="true"] { background: var(--accent, #1687c9); color: #fff; box-shadow: 0 2px 6px rgba(22, 135, 201, .28); }
+.leaflet-basemap-button:active { transform: scale(.97); }
+.leaflet-basemap-button:focus-visible { outline: 2px solid var(--accent, #1687c9); outline-offset: 2px; }
+.leaflet-basemap-status { margin-top: 4px; padding: 6px 10px; border-radius: 8px; background: var(--bg-surface, #fff); font-size: 11px; }
+.leaflet-basemap-status[hidden] { display: none; }
+
+/* Preserve natural imagery colors instead of the street-map theme filter. */
+.gravetrak-satellite-tiles .leaflet-tile { filter: none !important; }
+.leaflet-container .leaflet-control-attribution { display: block !important; max-width: min(600px, 85vw); }
+#screen-public .leaflet-basemap-control {
+  top: 126px;
+  right: 70px;
+  left: auto;
+  transform: none;
+}
+
+@media (max-width: 768px) {
+  #screen-public .leaflet-basemap-control {
+    top: calc(var(--map-toolbar-top, 16px) + 112px);
+    right: auto;
+    left: 16px;
+    transform: none;
+  }
+  #panel-planning .leaflet-basemap-control { top: 180px; }
+  .leaflet-basemap-button { min-height: 44px; }
+}

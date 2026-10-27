@@ -1,0 +1,138 @@
+# ═════════════════════════════════════════════════════════════════════════════
+# GraveTrak Capstone - Root .gitignore
+# ═════════════════════════════════════════════════════════════════════════════
+
+# ─────────────────────────────────────────────────────────────────────────────
+# PYTHON / DJANGO
+# ─────────────────────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Django
+*.sqlite3
+db.sqlite3
+db.sqlite3-journal
+local_settings.py
+/media/
+/backend/media/
+/backend/media/*
+/backend/media/.gitkeep
+/staticfiles/
+/backend/staticfiles/
+*.log
+
+# Django migrations (keep only in repo, but local changes)
+# migrations/*.pyc
+# migrations/__pycache__/
+
+# ─────────────────────────────────────────────────────────────────────────────
+# VIRTUAL ENVIRONMENTS
+# ─────────────────────────────────────────────────────────────────────────────
+venv/
+ENV/
+env/
+.venv
+.env
+.env.local
+.env.*.local
+/backend/.env.email
+
+# ─────────────────────────────────────────────────────────────────────────────
+# NODE / FRONTEND
+# ─────────────────────────────────────────────────────────────────────────────
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+dist/
+.vite/
+frontend/dist/
+
+# ─────────────────────────────────────────────────────────────────────────────
+# IDE / EDITOR
+# ─────────────────────────────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.pydevproject
+.settings/
+*.sublime-workspace
+*.sublime-project
+.DS_Store
+
+# ─────────────────────────────────────────────────────────────────────────────
+# OPERATING SYSTEM
+# ─────────────────────────────────────────────────────────────────────────────
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+
+# ─────────────────────────────────────────────────────────────────────────────
+# TEMPORARY / DEVELOPMENT
+# ─────────────────────────────────────────────────────────────────────────────
+*.tmp
+*.bak
+*.swp
+*.swo
+*~
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# ─────────────────────────────────────────────────────────────────────────────
+# PROJECT SPECIFIC
+# ─────────────────────────────────────────────────────────────────────────────
+
+# Archive folder (contains backups)
+archive/
+
+# Temporary test scripts (use scripts/temp/ instead)
+tmp_*.bat
+tmp_*.py
+tmp_*.txt
+
+# ─────────────────────────────────────────────────────────────────────────────
+# DO NOT IGNORE
+# ─────────────────────────────────────────────────────────────────────────────
+# Note: Use !filename to unignore specific files
+
+# Keep migrations
+!backend/api/migrations/
+!backend/api/migrations/*.py
+
+# Keep the media directory placeholder, but never track uploaded files.
+!/backend/media/
+!/backend/media/.gitkeep
+
+# Local migration backups and isolated browser review artifacts
+/.tmp/

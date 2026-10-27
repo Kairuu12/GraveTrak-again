@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" fill="none">
+  <title>GraveTrak — grave location</title>
+  <rect width="40" height="40" rx="12" fill="#1687c9"/>
+  <path d="M20 34C17 30.8 8.5 23.4 8.5 16.5a11.5 11.5 0 0 1 23 0C31.5 23.4 23 30.8 20 34Z" stroke="white" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M15 23v-7a5 5 0 0 1 10 0v7H15Z" fill="white"/>
+  <path d="M18 16h4m-4 3h4" stroke="#e3212b" stroke-width="1.5" stroke-linecap="round"/>
+  <path d="M13.5 23h13" stroke="white" stroke-width="2" stroke-linecap="round"/>
+</svg>
